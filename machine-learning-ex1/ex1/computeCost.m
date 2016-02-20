@@ -13,6 +13,16 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
+%iterations are unnecessary
+
+%H_0=[];
+%for i=1:m
+%	H_0=[H_0;sum(reshape(X(i,:),2,1).*theta)];
+%end
+
+H_0=X(:,1)*theta(1)+X(:,2)*theta(2);
+
+J=sum((H_0-y).^2)/(2*m);
 
 
 
