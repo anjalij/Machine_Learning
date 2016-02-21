@@ -23,10 +23,12 @@ grad = zeros(size(theta));
 
 
 
+%Computing the Gradient
 
 
-
-
+H0=(sigmoid(theta'*X'))';
+J=sum(-y.*log(H0)-(1-y).*log(1-H0))/m;
+grad=[sum((H0-y).*X(:,1))/m; sum((H0-y).*X(:,2))/m; sum((H0-y).*X(:,3))/m];
 % =============================================================
 
 end
