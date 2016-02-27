@@ -39,7 +39,7 @@ grad = zeros(size(theta));
 H0=(sigmoid(X*theta)); 
 theta2=theta.*theta; %squaring theta for J
 J=sum(-y.*log(H0)-(1-y).*log(1-H0))/m + lambda*sum(theta2(2:end))/(2*m);
-grad=[X'*(H0-y)]/m+[0;lambda*theta(2:end)]; 
+grad=[X'*(H0-y)]/m+[0;lambda*theta(2:end)/m]; 
 
 
 

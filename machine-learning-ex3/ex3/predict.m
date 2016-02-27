@@ -21,8 +21,10 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
-
-
+A1=[ones(m,1),X];
+X2=[ones(m,1),sigmoid(A1*Theta1')];% have to add ones to each set of inputs at each layer!
+X3=sigmoid(X2*Theta2'); % outputs
+[output,p]=max(X3,[],2);
 
 
 
