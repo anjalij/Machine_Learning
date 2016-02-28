@@ -48,29 +48,20 @@ y_matrix=eye(num_labels)(y,:);
 %         computed in ex4.m
 %
 
-
-%H0=(sigmoid(X*theta)); 
-%theta2=theta.*theta; %squaring theta for J
-%J=sum(-y.*log(H0)-(1-y).*log(1-H0))/m + lambda*sum(theta2(2:end))/(2*m);
-%grad=[X'*(H0-y)]/m+[0;lambda*theta(2:end)/m]; 
-
 Z2=A1*Theta1';
+%sizeZ2=size(Z2)
+
 A2=[ones(m,1),sigmoid(Z2)];
+%sizeA2=size(A2)
+
 Z3=A2*Theta2';
+%sizeZ3=size(Z3)
+
 A3=sigmoid(Z3);
-size(y_matrix)
-%Not split up nicely. 
-%X2=[ones(m,1),sigmoid(A1*Theta1')];% have to add ones to each set of inputs at each layer!
-%H0=sigmoid(X2*Theta2');
+%sizeA3=size(A3)
 
-
-%J=sum(-y_matrix.*log(H0)-(1-y_matrix).*log(1-H0))/m; % Not regularized
-%grad=[X'*(H0-y)]/m;
-
-J=sum(sum(-y_matrix.*log(A3)-(1-y_matrix).*log(1-A3))/m)+lambda*(sum(sum(Theta1(:,2:end)))+sum(sum(Theta2(:,2:end))))/(2*m);
-
-
-%J=sum(sum(-y_matrix.*log(H0)-(1-y_matrix).*log(1-H0))/m)+lambda*(sum(sum(Theta1(:,2:end)))+sum(sum(Theta2(:,2:end))))/(2*m);
+%J= sum(sum(-y_matrix.*log(A3)-(1-y_matrix).*log(1-A3)))/m
+J= sum(sum(-y_matrix.*log(A3)-(1-y_matrix).*log(1-A3)))/m+lambda*(sum(sum(Theta1(:,2:end).^2))+sum(sum(Theta2(:,2:end).^2)))/(2*m);
 
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
@@ -87,8 +78,29 @@ J=sum(sum(-y_matrix.*log(A3)-(1-y_matrix).*log(1-A3))/m)+lambda*(sum(sum(Theta1(
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+delta3=A3-y_matrix;
+size(delta3);
+size(sigmoidGradient(Z2));
+size(Theta2(:,2:end));
+delta2=delta3*Theta2(:,2:end).*sigmoidGradient(Z2);
 
+size(delta2);
 
+DELTA1=delta2'*A1;
+DELTA2=delta3'*A2;
+Z2;
+sigmoidGradient(Z2);
+A2;
+A3;
+
+Theta1(:,1)=0;
+Theta2(:,1)=0;
+
+Theta1_grad=DELTA1/m+(lambda/m)*Theta1;
+size(Theta1_grad);
+Theta2_grad=DELTA2/m+(lambda/m)*Theta2;
+size(Theta2_grad);
+grad=[Theta1_grad(:);Theta2_grad(:)];
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for

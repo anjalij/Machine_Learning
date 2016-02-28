@@ -1,0 +1,21 @@
+function normData = normalizedData(Data)
+
+%Normalizing the Data to the range of the data. Here the training examples are the rows and the different features of the data are the columns. For each feature it normalizes the value in each column to the range within the column. 
+
+m=size(Data,1) %number of training examples
+Xi=size(Data,2) % number of inputs
+
+normData=zeros(size(Data))
+% Now I will normalize all of the variables.
+
+for i=1:Xi
+	i
+	ma=max(Data(:,i))
+	mi=min(Data(:,i))
+	ra=ma-mi;
+	for j=1:m
+		normData(j,i)= Data(j,i)/ra;
+	end
+end
+
+end
