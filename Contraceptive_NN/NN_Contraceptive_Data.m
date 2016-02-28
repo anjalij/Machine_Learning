@@ -17,7 +17,7 @@ normData=normalizedData(X);
 %This is what I have control over changing
 noHN=25; %number of hidden neurons
 noLayers=1; %number of hidden layers
-noClass=3 %Classifications
+noClass=3; %Classifications
 
 lambda = 1; %learning rate
 epsilon_init=0.12; % This is the the nitial randomized weights.
@@ -36,17 +36,21 @@ num_thetas=noHN*(noFeatures+1)+(noLayers-1)*noHN*(noHN+1)+noClass*(noHN+1);
 
 
 %initializing parameters
-inital_parameters=rand(1,num_thetas)*2*epsilon_init-epsilon_init;
-
+initial_parameters=rand(1,num_thetas)*2*epsilon_init-epsilon_init;
+initial_parameters=initial_parameters';
+%inital_Size=size(initial_parameters)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[J,grad] = nnCostFunc(inital_parameters, noFeatures, noHN, noLayers,...
-                   noClass, X, y, lambda)
+%[J,grad] = nnCostFunc(initial_parameters, noFeatures, noHN, noLayers,...
+ %                  noClass, X, y, lambda);
 
 
 options = optimset('MaxIter', 100);
 
-costFunction = @(p)nnCostFunc(inital_parameters, noFeatures, noHN, noLayers,...
-                   noClass, X, y, lambda);
-[nn_params, cost] = fmincg(costFunction, initial_nn_params, options)
+costFunction = @(p) nnCostFunc(p, ...
+                                   noFeatures, ...
+                                   noHN, ...
+				   noLayers,...
+                                   noClass, X, y, lambda);
+[nn_parameters, cost] = fmincg(costFunction, initial_parameters, options);
 

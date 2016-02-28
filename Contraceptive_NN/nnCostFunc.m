@@ -4,12 +4,13 @@ function [J grad] = nnCostFunc(nn_parameters, ...
 								   num_hlayers,...
                                    num_labels, ...
                                    X, y, lambda)
+%Note that this is a batch cost function! Can I repurpose this for Online Learning?
 
 %NNCOSTFUNCT(_):Outputs the cost and the gradients for all of the thetas (unrolled so that fmincg can be used to calculate new Theta values). The beginning is set up to calculate this for any number of layers, but the calculation of the cost and the gradient does not do this. Needs to be improved... 
 
 %Pulling apart the Theta Matrix
 index=hidden_layer_size*(input_layer_size+1);
-size(nn_parameters)
+%input_size=size(nn_parameters)
 Theta1=reshape(nn_parameters(1:index), hidden_layer_size,input_layer_size+1);
 
 
@@ -20,8 +21,8 @@ for i=2:num_hlayers
 	index=index_new;
 end 
 
-
-eval(sprintf('Theta%d = reshape(nn_parameters(index+1:end),num_labels, hidden_layer_size+1)', num_hlayers+1));
+Theta2=reshape(nn_parameters(index+1:end),num_labels, hidden_layer_size+1);
+%eval(sprintf('Theta%d = reshape(nn_parameters(index+1:end),num_labels, hidden_layer_size+1)', num_hlayers+1));
 
 
 
@@ -85,6 +86,6 @@ grad=[Theta1_grad(:);Theta2_grad(:)];
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
+%output_size=size(grad)
 
 end
