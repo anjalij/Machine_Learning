@@ -22,6 +22,8 @@ for i=2:num_hlayers
 end 
 
 Theta2=reshape(nn_parameters(index+1:end),num_labels, hidden_layer_size+1);
+
+%if I use the below way of making the other thetas they print out, possibly because of the command sprintf. Need to find another way of doing this!
 %eval(sprintf('Theta%d = reshape(nn_parameters(index+1:end),num_labels, hidden_layer_size+1)', num_hlayers+1));
 
 

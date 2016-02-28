@@ -22,6 +22,8 @@ noClass=3; %Classifications
 lambda = 1; %learning rate
 epsilon_init=0.12; % This is the the nitial randomized weights.
 
+noIterations=30000; %number of iterations
+
 
 %%%%%%%%%%%Thetas%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -36,28 +38,26 @@ num_thetas=noHN*(noFeatures+1)+(noLayers-1)*noHN*(noHN+1)+noClass*(noHN+1);
 
 
 %initializing parameters
-initial_parameters=rand(1,num_thetas)*2*epsilon_init-epsilon_init;
-initial_parameters=initial_parameters';
+initial_parameters=rand(num_thetas,1)*2*epsilon_init-epsilon_init;
 %inital_Size=size(initial_parameters)
 
 
 %------------------------Print out the Cost and Gradient----------------
 
-%[J,grad] = nnCostFunc(initial_parameters, noFeatures, noHN, noLayers,...
- %                  noClass, X, y, lambda);
+index= round(-0.5+rand(1)*(m+1)) %picking out a random number between 1 and m
+trainEX=X(index,:); %picking out a random training example
+
+[J,grad] = nnCostFunc(initial_parameters, noFeatures, noHN, noLayers,...
+                   noClass, trainEX, y(index), lambda)
 
 %------------------------Training the Network----------------------------
-options = optimset('MaxIter', 100);
 
-costFunction = @(p) nnCostFunc(p, ...
-                                   noFeatures, ...
-                                   noHN, ...
-				   noLayers,...
-                                   noClass, X, y, lambda);
-[nn_parameters, cost] = fmincg(costFunction, initial_parameters, options);
+%for i=1:noIterations
+%	index= round(-0.5+rand(1)*(m+1));
+%	trainEX=X(index,:);
+	
 
-%---------------------Assessing Accuracy---------------------------
 
-pred=predict(nn_parameters, noFeatures, noHN, noLayers, noClass, X);
+%pred=predict(nn_parameters, noFeatures, noHN, noLayers, noClass, X);
 
-fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
+%fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
