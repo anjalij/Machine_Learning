@@ -22,7 +22,7 @@ noClass=3; %Classifications
 lambda = 1; %learning rate
 epsilon_init=0.12; % This is the the nitial randomized weights.
 
-noIterations=30000; %number of iterations
+noIterations=75000; %number of iterations
 
 
 %%%%%%%%%%%Thetas%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -36,7 +36,6 @@ num_thetas=noHN*(noFeatures+1)+(noLayers-1)*noHN*(noHN+1)+noClass*(noHN+1);
 %Note: right now I only have two Theta matrices
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 %initializing parameters
 initial_parameters=rand(num_thetas,1)*2*epsilon_init-epsilon_init;
 %inital_Size=size(initial_parameters)
@@ -44,20 +43,29 @@ initial_parameters=rand(num_thetas,1)*2*epsilon_init-epsilon_init;
 
 %------------------------Print out the Cost and Gradient----------------
 
-index= round(-0.5+rand(1)*(m+1)) %picking out a random number between 1 and m
+index= ceil(rand(1)*(m)) %picking out a random number between 1 and m
 trainEX=X(index,:); %picking out a random training example
 
 [J,grad] = nnCostFunc(initial_parameters, noFeatures, noHN, noLayers,...
-                   noClass, trainEX, y(index), lambda)
+                   noClass, trainEX, y(index), lambda);
+
+
+
 
 %------------------------Training the Network----------------------------
+	nn_parameters=initial_parameters;
 
-%for i=1:noIterations
-%	index= round(-0.5+rand(1)*(m+1));
-%	trainEX=X(index,:);
-	
+noIterations
+
+for i=1:noIterations
+	index= ceil(rand(1)*m);
+	trainEX=X(index,:);
+	[J,grad] = nnCostFunc(nn_parameters, noFeatures, noHN, noLayers,...
+                   noClass, trainEX, y(index), lambda);
+	nn_parameters=nn_parameters-grad;
+end	
 
 
-%pred=predict(nn_parameters, noFeatures, noHN, noLayers, noClass, X);
+pred=predict(nn_parameters, noFeatures, noHN, noLayers, noClass, X);
 
-%fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
+fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);

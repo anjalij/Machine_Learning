@@ -15,7 +15,7 @@ normData=normalizedData(X);
 
 %%%%%%%%%%%%%Inital_Parameters%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %This is what I have control over changing
-noHN=100; %number of hidden neurons
+noHN=1000; %number of hidden neurons
 noLayers=1; %number of hidden layers
 noClass=3; %Classifications
 

@@ -36,17 +36,17 @@ num_thetas=noHN*(noFeatures+1)+(noLayers-1)*noHN*(noHN+1)+noClass*(noHN+1);
 
 
 %initializing parameters
-inital_parameters=rand(1,num_thetas)*2*epsilon_init-epsilon_init;
+initial_nn_params=rand(1,num_thetas)*2*epsilon_init-epsilon_init;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[J,grad] = nnCostFunc(inital_parameters, noFeatures, noHN, noLayers,...
+[J,grad] = nnCostFunc(initial_nn_params, noFeatures, noHN, noLayers,...
                    noClass, X, y, lambda)
 
 
 options = optimset('MaxIter', 100);
 
-costFunction = @(p)nnCostFunc(inital_parameters, noFeatures, noHN, noLayers,...
+costFunction = @(p)nnCostFunc(p, noFeatures, noHN, noLayers,...
                    noClass, X, y, lambda);
 [nn_params, cost] = fmincg(costFunction, initial_nn_params, options)
 
